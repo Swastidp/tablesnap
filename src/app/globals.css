@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+/* Custom theme for Tailwind v4 */
+@theme {
+  /* Fintech color palette - Primary */
+  --color-primary-50: #f0f4f8;
+  --color-primary-100: #d9e2ec;
+  --color-primary-200: #bcccdc;
+  --color-primary-300: #9fb3c8;
+  --color-primary-400: #829ab1;
+  --color-primary-500: #627d98;
+  --color-primary-600: #486581;
+  --color-primary-700: #334e68;
+  --color-primary-800: #1e3a5f;
+  --color-primary-900: #0f2942;
+  
+  /* Accent colors */
+  --color-accent-50: #e6f0ff;
+  --color-accent-100: #b3d1ff;
+  --color-accent-200: #80b3ff;
+  --color-accent-300: #4d94ff;
+  --color-accent-400: #1a75ff;
+  --color-accent-500: #0066ff;
+  --color-accent-600: #0052cc;
+  --color-accent-700: #003d99;
+  --color-accent-800: #002966;
+  --color-accent-900: #001433;
+  
+  /* Semantic colors */
+  --color-success: #10b981;
+  --color-success-light: #d1fae5;
+  --color-warning: #f59e0b;
+  --color-warning-light: #fef3c7;
+  --color-error: #ef4444;
+  --color-error-light: #fee2e2;
+  
+  /* Font family */
+  --font-sans: "Inter", system-ui, sans-serif;
+  
+  /* Animations */
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-fade-in: fadeIn 0.5s ease-out;
+  --animate-slide-up: slideUp 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+:root {
+  --foreground-rgb: 15, 23, 42;
+  --background-start-rgb: 248, 250, 252;
+  --background-end-rgb: 241, 245, 249;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Table cell editing */
+.editable-cell {
+  @apply transition-all duration-200;
+}
+
+.editable-cell:focus-within {
+  @apply ring-2 ring-accent-500 ring-offset-1;
+}
+
+/* Dropzone animations */
+.dropzone-active {
+  @apply border-accent-500 bg-accent-50;
+}
+
+/* Status stepper */
+.status-step {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.status-step.active {
+  @apply text-accent-600 font-semibold;
+}
+
+.status-step.completed {
+  @apply text-success;
+}
+
+/* Image viewer */
+.image-viewer {
+  @apply cursor-grab;
+}
+
+.image-viewer:active {
+  @apply cursor-grabbing;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
