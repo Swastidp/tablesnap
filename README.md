@@ -14,7 +14,17 @@ Built for a 48-hour hackathon, TableSnap solves "The Data Trap" - the painful pr
 - **🔍 Zoom & Pan** - Examine your original image with full zoom/pan controls
 - **📥 One-Click CSV Export** - Download your verified data instantly
 - **✨ Editable Headers** - Rename column headers with a click
-- **🎨 Polished UX** - Animated dropzone, status stepper, and professional fintech design
+- **� Industrial Design** - Unique skeuomorphic UI with LED indicators, vent slots, and scan lines
+
+### 🚀 Power User Features
+
+- **📷 Mobile Camera Capture** - "Scan Document" button triggers native camera on iOS/Android
+- **📱 Mobile-First Responsive** - Tabbed interface on mobile, split view on desktop
+- **⌨️ Excel-Style Keyboard Navigation** - Navigate cells with Arrow keys, Enter to move down or add rows
+- **📋 Copy to Clipboard** - One-click copy as TSV for direct paste into Excel/Google Sheets
+- **🔢 Smart Column Alignment** - Numeric columns (Price, Qty, Total, etc.) auto-align right
+- **🎉 Success Confetti** - Delightful celebration animation on export
+- **⚠️ Empty State Handling** - Friendly UI when no table is detected
 
 ## 🚀 Quick Start
 
@@ -57,13 +67,16 @@ Built for a 48-hour hackathon, TableSnap solves "The Data Trap" - the painful pr
 
 - **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS v4
+- **Design System**: Industrial Skeuomorphism
 - **UI Components**: Custom shadcn-style components
-- **Animations**: Framer Motion
+- **Animations**: Framer Motion (mechanical spring physics)
+- **Confetti**: canvas-confetti
 - **Image Viewer**: react-zoom-pan-pinch
 - **Data Grid**: TanStack Table
 - **CSV Export**: PapaParse
 - **AI**: Google Gemini 2.5 Flash
+- **Fonts**: Inter + JetBrains Mono
 
 ## 📁 Project Structure
 
@@ -98,20 +111,26 @@ tablesnap/
 
 ## 🎨 Design Philosophy
 
-TableSnap was built with a "Fintech" design aesthetic:
-- Clean whites and grays as base colors
-- Deep blue accent (#0066ff) for primary actions
-- Subtle animations for delightful micro-interactions
-- Professional typography with Inter font
-- Generous whitespace and rounded corners
+TableSnap features an **Industrial Skeuomorphism** design system:
+- **Device Aesthetic** - UI feels like physical data processing hardware
+- **Neumorphic Shadows** - Soft, realistic depth with light/dark shadow pairs
+- **Chassis Grey Base** (#e0e5ec) - Industrial equipment-inspired background
+- **Safety Orange Accent** (#ff4757) - High-visibility action color
+- **LED Indicators** - Status lights with authentic glow effects
+- **Manufacturing Details** - Vent slots, corner screws, screen bezels
+- **Scan Line Animation** - Always-active oscillating laser effect
+- **JetBrains Mono** - Technical monospace font for data displays
+- **Mechanical Spring Physics** - Tactile, responsive animations
 
 ## 🔧 How It Works
 
-1. **Upload** - Drop or select an image containing a table (PNG, JPG, WEBP, HEIC)
+1. **Upload** - Drop an image, browse files, or tap "Scan Document" to use your camera (mobile)
 2. **Process** - Gemini 2.5 Flash analyzes the image and extracts structured data
-3. **Verify** - Review the extracted data side-by-side with the original image
+3. **Verify** - Review the extracted data side-by-side with the original image (desktop) or switch between tabs (mobile)
 4. **Edit** - Click any cell or header to fix errors (AI uncertainty marked with [?])
-5. **Export** - Download as CSV with one click
+   - Use **Arrow keys** to navigate between cells
+   - Press **Enter** to move down (auto-adds row at the end)
+5. **Export** - Download as CSV or copy to clipboard for direct paste into Excel/Sheets 🎉
 
 ## 📝 AI System Prompt
 
@@ -149,6 +168,17 @@ npm start
 ## 📄 License
 
 MIT License - feel free to use this for your own projects!
+
+## 🗺️ Roadmap
+
+- [x] ~~Mobile responsive improvements~~ ✅ Tabbed interface on mobile!
+- [x] ~~Camera capture~~ ✅ Native camera on iOS/Android!
+- [x] ~~Copy to clipboard~~ ✅ TSV for Excel/Sheets!
+- [ ] Multiple file upload support
+- [ ] Excel (.xlsx) export option
+- [ ] Batch processing queue
+- [ ] User accounts & history
+- [ ] Undo/redo for edits
 
 ---
 

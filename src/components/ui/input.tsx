@@ -1,13 +1,28 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
-  ({ className, type, ...props }, ref) => {
+export interface InputProps extends React.ComponentProps<"input"> {
+  variant?: "default" | "technical";
+}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, variant = "default", ...props }, ref) => {
     return (
       <input
         type={type}
         className={cn(
-          "flex h-10 w-full rounded-lg border border-primary-200 bg-white px-3 py-2 text-sm text-primary-800 transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-primary-800 placeholder:text-primary-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50",
+          // Base recessed data slot styling
+          "flex h-14 w-full rounded-lg border-none bg-chassis px-6 py-4 text-sm text-ink transition-all duration-150",
+          // Neumorphic recessed shadow
+          "shadow-neu-recessed",
+          // Focus state with LED-like glow
+          "focus-visible:outline-none focus-visible:shadow-[inset_4px_4px_8px_#babecc,inset_-4px_-4px_8px_#ffffff,0_0_0_2px_#ff4757]",
+          // Placeholder styling
+          "placeholder:text-ink-muted/50",
+          // Disabled state
+          "disabled:cursor-not-allowed disabled:opacity-50",
+          // Technical variant uses monospace
+          variant === "technical" && "font-mono tracking-wide",
           className
         )}
         ref={ref}

@@ -11,7 +11,27 @@ interface ImageViewerProps {
 
 export function ImageViewer({ src, alt = "Uploaded image" }: ImageViewerProps) {
   return (
-    <div className="relative w-full h-full bg-primary-50 rounded-xl overflow-hidden">
+    <div className="relative w-full h-full bg-dark-panel rounded-lg overflow-hidden">
+      {/* Screen bezel effect */}
+      <div className="absolute inset-0 pointer-events-none z-20 rounded-lg border-4 border-[#1a1a1a] shadow-[inset_0_0_30px_rgba(0,0,0,0.5)]" />
+      
+      {/* Scanlines overlay */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-10 opacity-20"
+        style={{
+          background: 'linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.15) 50%)',
+          backgroundSize: '100% 4px',
+        }}
+      />
+      
+      {/* Corner LED indicators */}
+      <div className="absolute top-3 right-3 z-30 flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-success shadow-led-green animate-pulse" />
+        <span className="text-[8px] font-mono font-bold text-success/80 uppercase tracking-wider">
+          PWR
+        </span>
+      </div>
+
       <TransformWrapper
         initialScale={1}
         minScale={0.5}
@@ -21,41 +41,43 @@ export function ImageViewer({ src, alt = "Uploaded image" }: ImageViewerProps) {
       >
         {({ zoomIn, zoomOut, resetTransform }) => (
           <>
-            {/* Controls */}
-            <div className="absolute top-4 left-4 z-10 flex gap-2">
+            {/* Industrial control buttons */}
+            <div className="absolute top-3 left-3 z-30 flex gap-2">
               <Button
                 variant="secondary"
                 size="icon"
                 onClick={() => zoomIn()}
-                className="bg-white/90 backdrop-blur-sm hover:bg-white shadow-md"
+                className="w-10 h-10 rounded-lg bg-chassis shadow-neu-button hover:shadow-neu-floating active:shadow-neu-pressed active:translate-y-[1px]"
                 title="Zoom In"
               >
-                <ZoomIn className="w-4 h-4" />
+                <ZoomIn className="w-4 h-4 text-ink" />
               </Button>
               <Button
                 variant="secondary"
                 size="icon"
                 onClick={() => zoomOut()}
-                className="bg-white/90 backdrop-blur-sm hover:bg-white shadow-md"
+                className="w-10 h-10 rounded-lg bg-chassis shadow-neu-button hover:shadow-neu-floating active:shadow-neu-pressed active:translate-y-[1px]"
                 title="Zoom Out"
               >
-                <ZoomOut className="w-4 h-4" />
+                <ZoomOut className="w-4 h-4 text-ink" />
               </Button>
               <Button
                 variant="secondary"
                 size="icon"
                 onClick={() => resetTransform()}
-                className="bg-white/90 backdrop-blur-sm hover:bg-white shadow-md"
+                className="w-10 h-10 rounded-lg bg-chassis shadow-neu-button hover:shadow-neu-floating active:shadow-neu-pressed active:translate-y-[1px]"
                 title="Reset View"
               >
-                <RotateCcw className="w-4 h-4" />
+                <RotateCcw className="w-4 h-4 text-ink" />
               </Button>
             </div>
 
-            {/* Hint */}
-            <div className="absolute bottom-4 left-4 z-10 flex items-center gap-2 px-3 py-1.5 bg-white/80 backdrop-blur-sm rounded-lg text-xs text-primary-500 shadow-sm">
-              <Move className="w-3 h-3" />
-              <span>Drag to pan • Scroll to zoom</span>
+            {/* Industrial hint badge */}
+            <div className="absolute bottom-3 left-3 z-30 flex items-center gap-2 px-3 py-2 bg-chassis rounded-lg shadow-neu-button">
+              <Move className="w-3 h-3 text-ink-muted" />
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-ink-muted">
+                DRAG TO PAN • SCROLL TO ZOOM
+              </span>
             </div>
 
             {/* Image container */}

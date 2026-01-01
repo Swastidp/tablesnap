@@ -1,46 +1,80 @@
 @import "tailwindcss";
 
-/* Custom theme for Tailwind v4 */
+/* ============================================
+   INDUSTRIAL SKEUOMORPHISM DESIGN SYSTEM
+   ============================================ */
+
 @theme {
-  /* Fintech color palette - Primary */
-  --color-primary-50: #f0f4f8;
-  --color-primary-100: #d9e2ec;
-  --color-primary-200: #bcccdc;
-  --color-primary-300: #9fb3c8;
-  --color-primary-400: #829ab1;
-  --color-primary-500: #627d98;
-  --color-primary-600: #486581;
-  --color-primary-700: #334e68;
-  --color-primary-800: #1e3a5f;
-  --color-primary-900: #0f2942;
+  /* Industrial Color Palette */
+  --color-chassis: #e0e5ec;        /* Background - Cool industrial grey */
+  --color-panel: #f0f2f5;          /* Raised panel surface */
+  --color-muted: #d1d9e6;          /* Recessed areas, grooves */
+  --color-text: #2d3436;           /* Primary text - charcoal */
+  --color-text-muted: #4a5568;     /* Secondary text - slate */
   
-  /* Accent colors */
-  --color-accent-50: #e6f0ff;
-  --color-accent-100: #b3d1ff;
-  --color-accent-200: #80b3ff;
-  --color-accent-300: #4d94ff;
-  --color-accent-400: #1a75ff;
-  --color-accent-500: #0066ff;
-  --color-accent-600: #0052cc;
-  --color-accent-700: #003d99;
-  --color-accent-800: #002966;
-  --color-accent-900: #001433;
+  /* Safety Orange Accent - The "Emergency Stop Button" */
+  --color-accent: #ff4757;
+  --color-accent-hover: #ff6b7a;
+  --color-accent-active: #e8414f;
+  --color-accent-glow: rgba(255, 71, 87, 0.6);
+  --color-accent-foreground: #ffffff;
   
   /* Semantic colors */
   --color-success: #10b981;
   --color-success-light: #d1fae5;
+  --color-success-glow: rgba(16, 185, 129, 0.6);
   --color-warning: #f59e0b;
   --color-warning-light: #fef3c7;
   --color-error: #ef4444;
   --color-error-light: #fee2e2;
   
-  /* Font family */
+  /* Shadow colors for neumorphism */
+  --color-shadow: #babecc;         /* Dark shadow */
+  --color-highlight: #ffffff;      /* Light highlight */
+  --color-shadow-deep: #a3b1c6;    /* Deep shadow for borders */
+  
+  /* Dark panel colors */
+  --color-dark-panel: #2d3436;
+  --color-dark-panel-text: #e0e5ec;
+  
+  /* Font families */
   --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Roboto Mono", monospace;
+  
+  /* Mechanical easing */
+  --ease-mechanical: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   
   /* Animations */
   --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-fade-in: fadeIn 0.5s ease-out;
-  --animate-slide-up: slideUp 0.5s ease-out;
+  --animate-fade-in: fadeIn 0.5s var(--ease-mechanical);
+  --animate-slide-up: slideUp 0.5s var(--ease-mechanical);
+  --animate-press: press 0.15s ease-out;
+  --animate-glow: glow 2s ease-in-out infinite;
+}
+
+/* Neumorphic Shadow System */
+:root {
+  /* Card (Base Lift) */
+  --shadow-card: 8px 8px 16px var(--color-shadow), -8px -8px 16px var(--color-highlight);
+  
+  /* Floating (High Elevation) */
+  --shadow-floating: 12px 12px 24px var(--color-shadow), -12px -12px 24px var(--color-highlight);
+  
+  /* Pressed (Active State) - Inverted */
+  --shadow-pressed: inset 6px 6px 12px var(--color-shadow), inset -6px -6px 12px var(--color-highlight);
+  
+  /* Recessed (Inputs/Screens) */
+  --shadow-recessed: inset 4px 4px 8px var(--color-shadow), inset -4px -4px 8px var(--color-highlight);
+  
+  /* Button shadow */
+  --shadow-button: 4px 4px 8px var(--color-shadow), -4px -4px 8px var(--color-highlight);
+  
+  /* Accent button shadow */
+  --shadow-accent: 4px 4px 8px rgba(166, 50, 60, 0.4), -4px -4px 8px rgba(255, 100, 110, 0.3);
+  
+  /* LED Glow */
+  --shadow-led-green: 0 0 10px 2px var(--color-success-glow);
+  --shadow-led-red: 0 0 10px 2px var(--color-accent-glow);
 }
 
 @keyframes fadeIn {
@@ -53,44 +87,67 @@
   100% { opacity: 1; transform: translateY(0); }
 }
 
-:root {
-  --foreground-rgb: 15, 23, 42;
-  --background-start-rgb: 248, 250, 252;
-  --background-end-rgb: 241, 245, 249;
+@keyframes press {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(2px); }
+  100% { transform: translateY(2px); }
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
 }
 
 html, body {
   height: 100%;
+  max-height: 100vh;
   overflow: hidden;
+  overscroll-behavior: none;
+  position: fixed;
+  width: 100%;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-    to bottom,
-    rgb(var(--background-start-rgb)),
-    rgb(var(--background-end-rgb))
-  );
+  color: var(--color-text);
+  background: var(--color-chassis);
+  position: relative;
 }
 
-/* Custom scrollbar */
+/* Noise texture overlay for matte plastic feel */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Custom scrollbar - Industrial style */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
-  border-radius: 4px;
+  background: var(--color-muted);
+  border-radius: 5px;
+  box-shadow: inset 2px 2px 4px var(--color-shadow), inset -2px -2px 4px var(--color-highlight);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+  background: var(--color-chassis);
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px var(--color-shadow), -2px -2px 4px var(--color-highlight);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--color-panel);
 }
 
 /* Table cell editing */
@@ -99,25 +156,27 @@ body {
 }
 
 .editable-cell:focus-within {
-  @apply ring-2 ring-accent-500 ring-offset-1;
+  box-shadow: var(--shadow-recessed), 0 0 0 2px var(--color-accent);
 }
 
 /* Dropzone animations */
 .dropzone-active {
-  @apply border-accent-500 bg-accent-50;
+  box-shadow: var(--shadow-pressed);
 }
 
 /* Status stepper */
 .status-step {
-  @apply transition-all duration-300 ease-in-out;
+  @apply transition-all duration-300;
+  transition-timing-function: var(--ease-mechanical);
 }
 
 .status-step.active {
-  @apply text-accent-600 font-semibold;
+  color: var(--color-accent);
+  @apply font-semibold;
 }
 
 .status-step.completed {
-  @apply text-success;
+  color: var(--color-success);
 }
 
 /* Image viewer */
@@ -127,6 +186,81 @@ body {
 
 .image-viewer:active {
   @apply cursor-grabbing;
+}
+
+/* Manufacturing details - Corner screws */
+.corner-screws {
+  background-image: 
+    radial-gradient(circle at 12px 12px, rgba(0,0,0,0.15) 2px, transparent 3px),
+    radial-gradient(circle at calc(100% - 12px) 12px, rgba(0,0,0,0.15) 2px, transparent 3px),
+    radial-gradient(circle at 12px calc(100% - 12px), rgba(0,0,0,0.15) 2px, transparent 3px),
+    radial-gradient(circle at calc(100% - 12px) calc(100% - 12px), rgba(0,0,0,0.15) 2px, transparent 3px);
+}
+
+/* LED indicator base */
+.led {
+  @apply w-2.5 h-2.5 rounded-full;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.led-active {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.led-green {
+  background: var(--color-success);
+  box-shadow: var(--shadow-led-green), inset 1px 1px 2px rgba(255,255,255,0.3);
+}
+
+.led-red {
+  background: var(--color-accent);
+  box-shadow: var(--shadow-led-red), inset 1px 1px 2px rgba(255,255,255,0.3);
+}
+
+/* Vent slots */
+.vent-slot {
+  @apply h-6 w-1 rounded-full;
+  background: var(--color-muted);
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.15);
+}
+
+/* Screen/display bezel */
+.screen-bezel {
+  background: var(--color-dark-panel);
+  border: 4px solid #1a1a1a;
+  box-shadow: var(--shadow-recessed), inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+/* Scanlines overlay */
+.scanlines::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.15) 50%);
+  background-size: 100% 4px;
+  opacity: 0.3;
+}
+
+/* Monospace for technical data */
+.font-technical {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1;
+}
+
+/* Embossed text effect */
+.text-embossed {
+  text-shadow: 0 1px 0 var(--color-highlight);
+}
+
+/* Physical connector pipe */
+.connector-pipe {
+  @apply h-3 rounded-full;
+  background: var(--color-muted);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), inset 0 -1px 2px rgba(255,255,255,0.5);
 }
 
 @layer utilities {

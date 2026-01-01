@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Dropzone } from "@/components/dropzone";
 import { StatusStepper } from "@/components/status-stepper";
 import { Workspace } from "@/components/workspace";
-import { Sparkles, AlertCircle } from "lucide-react";
+import { Zap, AlertCircle, Target, Edit3, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface TableData {
@@ -15,6 +15,43 @@ interface TableData {
 
 type AppState = "idle" | "processing" | "workspace" | "error";
 
+// Mechanical spring animation config
+const mechanicalSpring = {
+  type: "spring" as const,
+  stiffness: 400,
+  damping: 30,
+};
+
+// LED Indicator Component
+function LEDIndicator({ active, color = "green" }: { active: boolean; color?: "green" | "red" }) {
+  return (
+    <div 
+      className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+        active ? "animate-pulse" : ""
+      } ${
+        color === "green" && active ? "bg-success shadow-led-green" : ""
+      } ${
+        color === "green" && !active ? "bg-muted shadow-[inset_1px_1px_2px_rgba(0,0,0,0.2)]" : ""
+      } ${
+        color === "red" && active ? "bg-accent shadow-led-red" : ""
+      } ${
+        color === "red" && !active ? "bg-muted shadow-[inset_1px_1px_2px_rgba(0,0,0,0.2)]" : ""
+      }`}
+    />
+  );
+}
+
+// Vent Slots Component
+function VentSlots({ count = 4 }: { count?: number }) {
+  return (
+    <div className="flex gap-1">
+      {[...Array(count)].map((_, i) => (
+        <div key={i} className="h-5 w-1 rounded-full bg-muted shadow-[inset_1px_1px_2px_rgba(0,0,0,0.15)]" />
+      ))}
+    </div>
+  );
+}
+
 export default function Home() {
   const [appState, setAppState] = useState<AppState>("idle");
   const [imageDataUrl, setImageDataUrl] = useState<string>("");
@@ -22,7 +59,6 @@ export default function Home() {
   const [error, setError] = useState<string>("");
 
   const handleFileSelect = useCallback(async (file: File) => {
-    // Convert file to data URL for preview
     const reader = new FileReader();
     reader.onload = async (e) => {
       const dataUrl = e.target?.result as string;
@@ -31,11 +67,9 @@ export default function Home() {
       setError("");
 
       try {
-        // Create form data with the image
         const formData = new FormData();
         formData.append("image", file);
 
-        // Call the extraction API
         const response = await fetch("/api/extract", {
           method: "POST",
           body: formData,
@@ -49,7 +83,6 @@ export default function Home() {
 
         if (result.success && result.data) {
           setTableData(result.data);
-          // Small delay to show the "Ready!" state
           setTimeout(() => {
             setAppState("workspace");
           }, 800);
@@ -90,34 +123,59 @@ export default function Home() {
 
   // Render landing/processing/error view
   return (
-    <main className="h-screen flex flex-col overflow-hidden">
-      {/* Header */}
-      <header className="flex-shrink-0 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-2"
-          >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-500 to-accent-700 flex items-center justify-center shadow-lg shadow-accent-500/25">
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-primary-800">TableSnap</span>
-          </motion.div>
+    <main className="h-screen flex flex-col overflow-hidden bg-chassis">
+      {/* Industrial Header */}
+      <header className="flex-shrink-0 px-6 py-3">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-chassis rounded-xl shadow-neu-card px-5 py-3 border-2 border-shadow/30">
+            <div className="flex items-center justify-between">
+              {/* Logo and brand */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={mechanicalSpring}
+                className="flex items-center gap-3"
+              >
+                <div className="w-10 h-10 rounded-full bg-accent shadow-neu-accent flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <span className="text-lg font-bold text-ink text-embossed uppercase tracking-wide">
+                    TableSnap
+                  </span>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <LEDIndicator active={true} color="green" />
+                    <span className="text-[9px] font-mono font-bold text-ink-muted uppercase tracking-widest">
+                      ONLINE
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="text-sm text-primary-500"
-          >
-            AI-Powered Table Extraction
-          </motion.div>
+              {/* Right side */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={mechanicalSpring}
+                className="flex items-center gap-4"
+              >
+                <div className="hidden md:block px-3 py-1.5 rounded-lg bg-muted shadow-neu-recessed">
+                  <span className="text-[10px] font-mono font-bold text-ink-muted uppercase tracking-wider">
+                    AI-POWERED EXTRACTION
+                  </span>
+                </div>
+                <div className="hidden md:flex">
+                  <VentSlots count={4} />
+                </div>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </header>
 
       {/* Main content */}
-      <div className="flex-1 overflow-auto min-h-0">
-        <div className="min-h-full flex items-center justify-center px-6 py-6">
+      <div className="flex-1 min-h-0 overflow-hidden md:overflow-hidden overflow-y-auto">
+        <div className="h-full flex items-center justify-center px-6 py-4">
           <AnimatePresence mode="wait">
             {appState === "idle" && (
               <motion.div
@@ -125,65 +183,60 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
+                transition={mechanicalSpring}
                 className="w-full max-w-2xl"
               >
-                <div className="text-center mb-6">
-                <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                  className="text-3xl md:text-4xl font-bold text-primary-800 mb-3"
-                >
-                  Images to Spreadsheets,{" "}
-                  <span className="text-accent-500">Instantly.</span>
-                </motion.h1>
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="text-base text-primary-500 max-w-lg mx-auto"
-                >
-                  Transform photos of tables, receipts, and invoices into
-                  editable data. Verify before you export.
-                </motion.p>
+                {/* Hero text */}
+                <div className="text-center mb-4">
+                  <motion.h1
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1, ...mechanicalSpring }}
+                    className="text-2xl md:text-3xl font-extrabold text-ink text-embossed mb-2 tracking-tight"
+                  >
+                    Images to Spreadsheets,{" "}
+                    <span className="text-accent">Instantly.</span>
+                  </motion.h1>
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, ...mechanicalSpring }}
+                    className="text-base text-ink-muted max-w-lg mx-auto"
+                  >
+                    Transform photos of tables, receipts, and invoices into
+                    editable data. Verify before you export.
+                  </motion.p>
                 </div>
 
                 <Dropzone onFileSelect={handleFileSelect} />
 
-                {/* Features */}
+                {/* Feature cards - Industrial style */}
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                  className="mt-8 grid grid-cols-3 gap-4 text-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, ...mechanicalSpring }}
+                  className="mt-6 grid grid-cols-3 gap-3"
                 >
-                  <div className="p-3">
-                    <div className="text-xl mb-1">🎯</div>
-                    <h3 className="font-medium text-primary-700 text-sm mb-0.5">
-                      AI Accuracy
-                    </h3>
-                    <p className="text-xs text-primary-400">
-                      Powered by Gemini 2.5 Flash
-                    </p>
-                  </div>
-                  <div className="p-3">
-                    <div className="text-xl mb-1">✏️</div>
-                    <h3 className="font-medium text-primary-700 text-sm mb-0.5">
-                      Edit Before Export
-                    </h3>
-                    <p className="text-xs text-primary-400">
-                      Fix any errors visually
-                    </p>
-                  </div>
-                  <div className="p-3">
-                    <div className="text-xl mb-1">📊</div>
-                    <h3 className="font-medium text-primary-700 text-sm mb-0.5">
-                      One-Click CSV
-                    </h3>
-                    <p className="text-xs text-primary-400">
-                      Download instantly
-                    </p>
-                  </div>
+                  {[
+                    { icon: Target, title: "AI ACCURACY", desc: "Gemini 2.5 Flash" },
+                    { icon: Edit3, title: "EDIT FIRST", desc: "Fix errors visually" },
+                    { icon: Download, title: "ONE-CLICK", desc: "Export to CSV" },
+                  ].map((feature, index) => (
+                    <div 
+                      key={index}
+                      className="bg-chassis rounded-lg shadow-neu-card p-3 text-center group hover:-translate-y-0.5 hover:shadow-neu-floating transition-all duration-300 border-2 border-shadow/20"
+                    >
+                      <div className="w-9 h-9 rounded-full bg-chassis shadow-neu-floating flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-300">
+                        <feature.icon className="w-4 h-4 text-accent" />
+                      </div>
+                      <h3 className="font-bold text-ink text-[10px] mb-0.5 uppercase tracking-wider text-embossed">
+                        {feature.title}
+                      </h3>
+                      <p className="text-[10px] font-mono text-ink-muted uppercase tracking-wide">
+                        {feature.desc}
+                      </p>
+                    </div>
+                  ))}
                 </motion.div>
               </motion.div>
             )}
@@ -194,30 +247,36 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
+                transition={mechanicalSpring}
                 className="w-full max-w-xl"
               >
                 <div className="text-center mb-6">
-                  <h2 className="text-2xl font-semibold text-primary-800 mb-2">
-                    Extracting your data...
+                  <h2 className="text-2xl font-bold text-ink text-embossed mb-2 uppercase tracking-wide">
+                    Extracting Data...
                   </h2>
-                  <p className="text-primary-500">
-                    Our AI is analyzing your image
+                  <p className="text-ink-muted text-sm">
+                    AI is analyzing your document
                   </p>
                 </div>
 
-                {/* Preview thumbnail */}
+                {/* Preview thumbnail - Industrial frame */}
                 {imageDataUrl && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
+                    transition={mechanicalSpring}
                     className="mb-6 flex justify-center"
                   >
-                    <div className="w-28 h-28 rounded-xl overflow-hidden border-2 border-primary-200 shadow-lg">
-                      <img
-                        src={imageDataUrl}
-                        alt="Processing"
-                        className="w-full h-full object-cover"
-                      />
+                    <div className="relative p-1 bg-chassis rounded-xl shadow-neu-card">
+                      <div className="w-28 h-28 rounded-lg overflow-hidden shadow-neu-recessed">
+                        <img
+                          src={imageDataUrl}
+                          alt="Processing"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      {/* Processing LED */}
+                      <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-accent shadow-led-red animate-pulse" />
                     </div>
                   </motion.div>
                 )}
@@ -232,32 +291,64 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="w-full max-w-md text-center"
+                transition={mechanicalSpring}
+                className="w-full max-w-md"
               >
-                <div className="w-16 h-16 rounded-full bg-error-light flex items-center justify-center mx-auto mb-6">
-                  <AlertCircle className="w-8 h-8 text-error" />
+                {/* Error panel - Industrial style */}
+                <div className="bg-chassis rounded-xl shadow-neu-card p-6 text-center">
+                  {/* Corner screws */}
+                  <div 
+                    className="absolute inset-0 pointer-events-none rounded-xl"
+                    style={{
+                      backgroundImage: `
+                        radial-gradient(circle at 14px 14px, rgba(0,0,0,0.1) 2px, transparent 3px),
+                        radial-gradient(circle at calc(100% - 14px) 14px, rgba(0,0,0,0.1) 2px, transparent 3px),
+                        radial-gradient(circle at 14px calc(100% - 14px), rgba(0,0,0,0.1) 2px, transparent 3px),
+                        radial-gradient(circle at calc(100% - 14px) calc(100% - 14px), rgba(0,0,0,0.1) 2px, transparent 3px)
+                      `
+                    }}
+                  />
+                  
+                  <div className="w-20 h-20 rounded-full bg-chassis shadow-neu-floating flex items-center justify-center mx-auto mb-6">
+                    <AlertCircle className="w-10 h-10 text-error" />
+                  </div>
+
+                  <h2 className="text-xl font-bold text-ink text-embossed mb-2 uppercase tracking-wide">
+                    System Error
+                  </h2>
+                  <p className="text-ink-muted mb-6 text-sm">{error}</p>
+
+                  <Button onClick={handleReset}>
+                    RETRY OPERATION
+                  </Button>
                 </div>
-
-                <h2 className="text-2xl font-semibold text-primary-800 mb-2">
-                  Something went wrong
-                </h2>
-                <p className="text-primary-500 mb-6">{error}</p>
-
-                <Button onClick={handleReset} variant="default">
-                  Try Again
-                </Button>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="flex-shrink-0 px-6 py-4 text-center text-sm text-primary-400">
-        <p>
-          Built for hackathon •{" "}
-          <span className="text-accent-500">TableSnap</span>
-        </p>
+      {/* Industrial Footer */}
+      <footer className="flex-shrink-0 px-6 py-3">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-chassis rounded-lg shadow-neu-card px-5 py-3 border-2 border-shadow/30">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <LEDIndicator active={true} color="green" />
+                <span className="text-[10px] font-mono font-bold text-ink-muted uppercase tracking-widest">
+                  SYSTEM OPERATIONAL
+                </span>
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="text-[10px] font-mono text-ink-muted/60 uppercase tracking-wider">
+                  BUILT FOR HACKATHON •{" "}
+                  <span className="text-accent font-bold">TABLESNAP</span>
+                </span>
+                <VentSlots count={3} />
+              </div>
+            </div>
+          </div>
+        </div>
       </footer>
     </main>
   );
