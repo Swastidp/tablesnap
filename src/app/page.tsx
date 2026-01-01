@@ -174,8 +174,8 @@ export default function Home() {
       </header>
 
       {/* Main content */}
-      <div className="flex-1 min-h-0 overflow-hidden md:overflow-hidden overflow-y-auto">
-        <div className="h-full flex items-center justify-center px-6 py-4">
+      <div className="flex-1 min-h-0 overflow-y-auto md:overflow-hidden">
+        <div className="min-h-full md:h-full flex items-center justify-center px-4 md:px-6 py-6 md:py-4">
           <AnimatePresence mode="wait">
             {appState === "idle" && (
               <motion.div
@@ -187,12 +187,12 @@ export default function Home() {
                 className="w-full max-w-2xl"
               >
                 {/* Hero text */}
-                <div className="text-center mb-4">
+                <div className="text-center mb-4 px-2">
                   <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1, ...mechanicalSpring }}
-                    className="text-2xl md:text-3xl font-extrabold text-ink text-embossed mb-2 tracking-tight"
+                    className="text-xl md:text-3xl font-extrabold text-ink text-embossed mb-2 tracking-tight leading-tight"
                   >
                     Images to Spreadsheets,{" "}
                     <span className="text-accent">Instantly.</span>
@@ -201,7 +201,7 @@ export default function Home() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, ...mechanicalSpring }}
-                    className="text-base text-ink-muted max-w-lg mx-auto"
+                    className="text-sm md:text-base text-ink-muted max-w-lg mx-auto"
                   >
                     Transform photos of tables, receipts, and invoices into
                     editable data. Verify before you export.
@@ -215,7 +215,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, ...mechanicalSpring }}
-                  className="mt-6 grid grid-cols-3 gap-3"
+                  className="mt-6 grid grid-cols-3 gap-2 md:gap-3 px-1"
                 >
                   {[
                     { icon: Target, title: "AI ACCURACY", desc: "Gemini 2.5 Flash" },
@@ -224,15 +224,15 @@ export default function Home() {
                   ].map((feature, index) => (
                     <div 
                       key={index}
-                      className="bg-chassis rounded-lg shadow-neu-card p-3 text-center group hover:-translate-y-0.5 hover:shadow-neu-floating transition-all duration-300 border-2 border-shadow/20"
+                      className="bg-chassis rounded-lg shadow-neu-card p-2 md:p-3 text-center group hover:-translate-y-0.5 hover:shadow-neu-floating transition-all duration-300 border-2 border-shadow/20"
                     >
-                      <div className="w-9 h-9 rounded-full bg-chassis shadow-neu-floating flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-300">
-                        <feature.icon className="w-4 h-4 text-accent" />
+                      <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-chassis shadow-neu-floating flex items-center justify-center mx-auto mb-1.5 md:mb-2 group-hover:scale-110 transition-transform duration-300">
+                        <feature.icon className="w-3.5 h-3.5 md:w-4 md:h-4 text-accent" />
                       </div>
-                      <h3 className="font-bold text-ink text-[10px] mb-0.5 uppercase tracking-wider text-embossed">
+                      <h3 className="font-bold text-ink text-[9px] md:text-[10px] mb-0.5 uppercase tracking-wider text-embossed">
                         {feature.title}
                       </h3>
-                      <p className="text-[10px] font-mono text-ink-muted uppercase tracking-wide">
+                      <p className="text-[8px] md:text-[10px] font-mono text-ink-muted uppercase tracking-wide">
                         {feature.desc}
                       </p>
                     </div>
