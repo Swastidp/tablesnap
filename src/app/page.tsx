@@ -299,7 +299,7 @@ export default function Home() {
                   ].map((feature, index) => (
                     <div 
                       key={index}
-                      className="bg-chassis rounded-lg shadow-neu-card p-2 text-center group hover:-translate-y-0.5 hover:shadow-neu-floating transition-all duration-300 border-2 border-shadow/20"
+                      className="bg-chassis rounded-lg shadow-neu-card p-2 text-center group hover:-translate-y-0.5 hover:shadow-neu-floating transition-all duration-300 border-2 border-shadow/40"
                     >
                       <div className="w-8 h-8 rounded-full bg-chassis shadow-neu-floating flex items-center justify-center mx-auto mb-1.5 group-hover:scale-110 transition-transform duration-300">
                         <feature.icon className="w-4 h-4 text-accent" />
