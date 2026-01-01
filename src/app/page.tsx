@@ -299,9 +299,9 @@ export default function Home() {
                   ].map((feature, index) => (
                     <div 
                       key={index}
-                      className="bg-chassis rounded-lg shadow-neu-card p-3 text-center group hover:-translate-y-0.5 hover:shadow-neu-floating transition-all duration-300 border-2 border-shadow/20"
+                      className="bg-chassis rounded-lg shadow-neu-card p-2 text-center group hover:-translate-y-0.5 hover:shadow-neu-floating transition-all duration-300 border-2 border-shadow/20"
                     >
-                      <div className="w-9 h-9 rounded-full bg-chassis shadow-neu-floating flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-8 h-8 rounded-full bg-chassis shadow-neu-floating flex items-center justify-center mx-auto mb-1.5 group-hover:scale-110 transition-transform duration-300">
                         <feature.icon className="w-4 h-4 text-accent" />
                       </div>
                       <h3 className="font-bold text-ink text-[10px] md:text-xs mb-0.5 uppercase tracking-wider text-embossed">
@@ -404,18 +404,18 @@ export default function Home() {
       </div>
 
       {/* Industrial Footer */}
-      <footer className="flex-shrink-0 px-6 py-2">
+      <footer className="flex-shrink-0 px-4 sm:px-6 py-3 pb-4">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-chassis rounded-lg shadow-neu-card px-5 py-2 border-2 border-shadow/30">
-            <div className="flex items-center justify-between">
+          <div className="bg-chassis rounded-lg shadow-neu-card px-4 sm:px-5 py-3 border-2 border-shadow/30">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0">
               <div className="flex items-center gap-3">
                 <LEDIndicator active={true} color="green" />
                 <span className="text-[10px] font-mono font-bold text-ink-muted uppercase tracking-widest">
                   SYSTEM OPERATIONAL
                 </span>
               </div>
-              <div className="flex items-center gap-4">
-                <span className="text-[10px] font-mono text-ink-muted/60 uppercase tracking-wider">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <span className="text-[9px] sm:text-[10px] font-mono text-ink-muted/60 uppercase tracking-wider text-center">
                   BUILT FOR ENTREXT •{" "}
                   <span className="text-accent font-bold">TABLESNAP</span>
                 </span>
@@ -423,12 +423,14 @@ export default function Home() {
                   href="https://github.com/Swastidp/tablesnap" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-chassis shadow-neu-button flex items-center justify-center hover:shadow-neu-floating hover:scale-105 active:shadow-neu-pressed transition-all duration-200"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-chassis shadow-neu-button flex items-center justify-center hover:shadow-neu-floating hover:scale-105 active:shadow-neu-pressed transition-all duration-200"
                   title="View on GitHub"
                 >
-                  <Github className="w-5 h-5 text-ink-muted hover:text-accent transition-colors" />
+                  <Github className="w-4 h-4 sm:w-5 sm:h-5 text-ink-muted hover:text-accent transition-colors" />
                 </a>
-                <VentSlots count={3} />
+                <div className="hidden sm:flex">
+                  <VentSlots count={3} />
+                </div>
               </div>
             </div>
           </div>
