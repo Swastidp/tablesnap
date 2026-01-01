@@ -12,7 +12,9 @@ Built for a 48-hour hackathon, TableSnap solves "The Data Trap" - the painful pr
 
 👉 **[Try it now → table-snap.vercel.app](https://table-snap.vercel.app/)**
 
-<!-- Add a screenshot here: ![TableSnap Screenshot](./screenshot.png) -->
+## 🎬 Demo
+
+https://github.com/user-attachments/assets/0026bfb1-a94b-45a9-a558-b3e05ef27a85
 
 ## ✨ Features
 

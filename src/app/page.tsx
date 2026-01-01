@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Dropzone } from "@/components/dropzone";
 import { StatusStepper } from "@/components/status-stepper";
 import { Workspace } from "@/components/workspace";
-import { Zap, AlertCircle, Target, Edit3, Download } from "lucide-react";
+import { Zap, AlertCircle, Target, Edit3, Download, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface TableData {
@@ -419,6 +419,15 @@ export default function Home() {
                   BUILT FOR ENTREXT •{" "}
                   <span className="text-accent font-bold">TABLESNAP</span>
                 </span>
+                <a 
+                  href="https://github.com/Swastidp/tablesnap" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-full bg-chassis shadow-neu-button flex items-center justify-center hover:shadow-neu-floating hover:scale-105 active:shadow-neu-pressed transition-all duration-200"
+                  title="View on GitHub"
+                >
+                  <Github className="w-5 h-5 text-ink-muted hover:text-accent transition-colors" />
+                </a>
                 <VentSlots count={3} />
               </div>
             </div>
