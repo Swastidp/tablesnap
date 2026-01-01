@@ -185,7 +185,7 @@ export function Dropzone({ onFileSelect, isLoading = false }: DropzoneProps) {
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           className={cn(
-            "relative flex flex-col items-center justify-center w-full min-h-[220px] m-2.5 rounded-xl cursor-pointer transition-all duration-300",
+            "relative flex flex-col items-center justify-center w-full min-h-[210px] m-2 rounded-xl cursor-pointer transition-all duration-300",
             // Recessed scanning bed appearance
             "shadow-neu-recessed bg-chassis",
             isDragActive && "shadow-[inset_6px_6px_12px_#babecc,inset_-6px_-6px_12px_#ffffff,0_0_0_3px_#ff4757]",
@@ -219,7 +219,7 @@ export function Dropzone({ onFileSelect, isLoading = false }: DropzoneProps) {
               y: isDragActive ? -8 : 0,
             }}
             transition={mechanicalSpring}
-            className="relative z-10 mb-4"
+            className="relative z-10 mb-3"
           >
             {/* Circular icon housing with neumorphic effect */}
             <div
@@ -255,7 +255,7 @@ export function Dropzone({ onFileSelect, isLoading = false }: DropzoneProps) {
               animate={{ scale: isDragActive ? 1.02 : 1 }}
               transition={mechanicalSpring}
               className={cn(
-                "text-lg font-bold mb-1.5 transition-colors duration-300 text-embossed",
+                "text-base font-bold mb-1 transition-colors duration-300 text-embossed",
                 isDragActive ? "text-accent" : "text-ink"
               )}
             >
@@ -266,7 +266,7 @@ export function Dropzone({ onFileSelect, isLoading = false }: DropzoneProps) {
               Drop an invoice, screenshot, or table image
             </p>
             
-            <p className="text-ink-muted/60 text-sm mb-4">
+            <p className="text-ink-muted/60 text-sm mb-2">
               or{" "}
               <span className="text-accent font-semibold hover:text-accent-hover underline underline-offset-2 cursor-pointer">
                 browse files
@@ -277,7 +277,7 @@ export function Dropzone({ onFileSelect, isLoading = false }: DropzoneProps) {
             <Button
               type="button"
               variant="secondary"
-              size="default"
+              size="sm"
               onClick={handleCameraClick}
               disabled={isLoading}
               className="gap-2"
@@ -285,6 +285,10 @@ export function Dropzone({ onFileSelect, isLoading = false }: DropzoneProps) {
               <Camera className="w-4 h-4" />
               SCAN DOCUMENT
             </Button>
+            
+            <p className="text-[11px] text-ink-muted mt-2 font-mono">
+              📱 <span className="font-semibold">Mobile:</span> Tap camera to scan
+            </p>
           </div>
 
           <input

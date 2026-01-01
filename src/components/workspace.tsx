@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ImageViewer } from "@/components/image-viewer";
 import { EditableTable } from "@/components/editable-table";
 import { Button } from "@/components/ui/button";
@@ -90,6 +90,7 @@ export function Workspace({
 }: WorkspaceProps) {
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'image' | 'table'>('table');
+  const [exportMessage, setExportMessage] = useState("");
 
   // Copy to clipboard as TSV (Tab-Separated Values)
   const handleCopyToClipboard = async () => {
@@ -130,16 +131,21 @@ export function Workspace({
       columns: tableData.headers,
     });
 
+    const filename = `tablesnap-export-${Date.now()}.csv`;
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
     link.setAttribute("href", url);
-    link.setAttribute("download", `tablesnap-export-${Date.now()}.csv`);
+    link.setAttribute("download", filename);
     link.style.visibility = "hidden";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+
+    // Show success message
+    setExportMessage(`✅ Downloaded: ${filename}`);
+    setTimeout(() => setExportMessage(""), 3000);
 
     confetti({
       particleCount: 100,
@@ -400,6 +406,21 @@ export function Workspace({
           />
         </motion.div>
       </div>
+
+      {/* Success Toast Notification */}
+      <AnimatePresence>
+        {exportMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.9 }}
+            transition={mechanicalSpring}
+            className="fixed bottom-6 right-6 bg-success text-white px-4 py-3 rounded-lg shadow-lg font-mono text-sm font-bold z-50"
+          >
+            {exportMessage}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

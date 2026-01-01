@@ -17,7 +17,8 @@ Built for a 48-hour hackathon, TableSnap solves "The Data Trap" - the painful pr
 ## ✨ Features
 
 - **🎯 AI-Powered Extraction** - Powered by Google Gemini 2.5 Flash for accurate table detection
-- **📋 Split View Interface** - Original image on the left, extracted data on the right
+- **� Mobile Camera Scan** - "Scan Document" triggers native camera on iOS/Android
+- **�📋 Split View Interface** - Original image on the left, extracted data on the right
 - **✏️ Edit Before Export** - Fix any AI errors visually before downloading
 - **🔍 Zoom & Pan** - Examine your original image with full zoom/pan controls
 - **📥 One-Click CSV Export** - Download your verified data instantly

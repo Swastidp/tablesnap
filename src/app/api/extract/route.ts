@@ -77,15 +77,28 @@ export async function POST(request: NextRequest) {
 
       const data = JSON.parse(cleanedText);
 
-      // Validate the response structure
+      // Context-aware error for "No table detected"
+      if (data.error === "No table detected") {
+        return NextResponse.json(
+          { 
+            error: "No table found in image. Try: invoices, receipts, spreadsheets, or financial documents with clear structure.",
+            tip: "Images work best when: square angle, good lighting, no blur, dark text on light background"
+          }, 
+          { status: 400 }
+        );
+      }
+
       if (data.error) {
         return NextResponse.json({ error: data.error }, { status: 400 });
       }
 
-      if (!data.headers || !data.rows) {
+      if (!data.headers || !Array.isArray(data.rows)) {
         return NextResponse.json(
-          { error: "Invalid response structure from AI" },
-          { status: 500 }
+          { 
+            error: "Table detected but couldn't extract clearly. Improve results: better lighting, steady camera, no blur, square angle.",
+            tip: "Try taking a new photo of the same document"
+          }, 
+          { status: 400 }
         );
       }
 
@@ -98,9 +111,11 @@ export async function POST(request: NextRequest) {
       });
     } catch (parseError) {
       console.error("JSON parse error:", parseError);
-      console.error("Raw response:", text);
       return NextResponse.json(
-        { error: "Failed to parse AI response. The image might not contain a valid table." },
+        { 
+          error: "System processing error. Please try again. If this persists, the document might be too complex.",
+          debug: process.env.NODE_ENV === 'development' ? { error: String(parseError) } : undefined
+        }, 
         { status: 500 }
       );
     }
