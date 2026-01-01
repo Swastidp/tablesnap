@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   description:
     "Transform images of tables, invoices, and financial documents into editable spreadsheets with AI-powered extraction. Verify before you export.",
   keywords: ["OCR", "table extraction", "invoice scanner", "AI", "spreadsheet"],
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

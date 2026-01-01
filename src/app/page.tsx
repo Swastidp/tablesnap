@@ -341,7 +341,7 @@ export default function Home() {
               </div>
               <div className="flex items-center gap-4">
                 <span className="text-[10px] font-mono text-ink-muted/60 uppercase tracking-wider">
-                  BUILT FOR HACKATHON •{" "}
+                  BUILT FOR ENTREXT •{" "}
                   <span className="text-accent font-bold">TABLESNAP</span>
                 </span>
                 <VentSlots count={3} />

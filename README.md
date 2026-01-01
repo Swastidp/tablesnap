@@ -2,9 +2,17 @@
 
 > **Transform images of tables, invoices, and financial documents into editable spreadsheets instantly.**
 
+<p align="center">
+  <a href="https://table-snap.vercel.app/">
+    <img src="https://img.shields.io/badge/🚀_Live_Demo-table--snap.vercel.app-ff4757?style=for-the-badge" alt="Live Demo" />
+  </a>
+</p>
+
 Built for a 48-hour hackathon, TableSnap solves "The Data Trap" - the painful process of manually converting tabular data from images into Excel/CSV format.
 
-![TableSnap](https://via.placeholder.com/800x400?text=TableSnap+Demo)
+👉 **[Try it now → table-snap.vercel.app](https://table-snap.vercel.app/)**
+
+<!-- Add a screenshot here: ![TableSnap Screenshot](./screenshot.png) -->
 
 ## ✨ Features
 
@@ -27,6 +35,8 @@ Built for a 48-hour hackathon, TableSnap solves "The Data Trap" - the painful pr
 - **⚠️ Empty State Handling** - Friendly UI when no table is detected
 
 ## 🚀 Quick Start
+
+**Want to skip setup?** 👉 [Try the live demo](https://table-snap.vercel.app/) - no installation required!
 
 ### Prerequisites
 
@@ -169,17 +179,7 @@ npm start
 
 MIT License - feel free to use this for your own projects!
 
-## 🗺️ Roadmap
-
-- [x] ~~Mobile responsive improvements~~ ✅ Tabbed interface on mobile!
-- [x] ~~Camera capture~~ ✅ Native camera on iOS/Android!
-- [x] ~~Copy to clipboard~~ ✅ TSV for Excel/Sheets!
-- [ ] Multiple file upload support
-- [ ] Excel (.xlsx) export option
-- [ ] Batch processing queue
-- [ ] User accounts & history
-- [ ] Undo/redo for edits
 
 ---
 
-**Built with ❤️ for the hackathon**
+**Built with ❤️ for the Entrext**
