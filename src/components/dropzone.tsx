@@ -2,7 +2,7 @@
 
 import { useCallback, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Upload, FileImage, Camera, Zap } from "lucide-react";
+import { Upload, FileImage, Camera, Zap, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -28,6 +28,7 @@ const mechanicalSpring = {
 interface DropzoneProps {
   onFileSelect: (file: File) => void;
   isLoading?: boolean;
+  onLoadSample?: () => void;
 }
 
 // LED Indicator Component
@@ -59,7 +60,7 @@ function VentSlots() {
   );
 }
 
-export function Dropzone({ onFileSelect, isLoading = false }: DropzoneProps) {
+export function Dropzone({ onFileSelect, isLoading = false, onLoadSample }: DropzoneProps) {
   const [isDragActive, setIsDragActive] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const cameraInputRef = useRef<HTMLInputElement>(null);
@@ -160,7 +161,7 @@ export function Dropzone({ onFileSelect, isLoading = false }: DropzoneProps) {
         />
 
         {/* Device Header Bar */}
-        <div className="flex items-center justify-between px-5 py-2.5 border-b border-shadow/30">
+        <div className="flex items-center justify-between px-5 py-2 border-b border-shadow/30">
           <div className="flex items-center gap-3">
             <LEDIndicator active={!isLoading} color="green" />
             <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-ink-muted">
@@ -185,7 +186,7 @@ export function Dropzone({ onFileSelect, isLoading = false }: DropzoneProps) {
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
           className={cn(
-            "relative flex flex-col items-center justify-center w-full min-h-[210px] m-2 rounded-xl cursor-pointer transition-all duration-300",
+            "relative flex flex-col items-center justify-center w-full min-h-[200px] m-2 rounded-xl cursor-pointer transition-all duration-300",
             // Recessed scanning bed appearance
             "shadow-neu-recessed bg-chassis",
             isDragActive && "shadow-[inset_6px_6px_12px_#babecc,inset_-6px_-6px_12px_#ffffff,0_0_0_3px_#ff4757]",
@@ -219,7 +220,7 @@ export function Dropzone({ onFileSelect, isLoading = false }: DropzoneProps) {
               y: isDragActive ? -8 : 0,
             }}
             transition={mechanicalSpring}
-            className="relative z-10 mb-3"
+            className="relative z-10 mb-2"
           >
             {/* Circular icon housing with neumorphic effect */}
             <div
@@ -262,7 +263,7 @@ export function Dropzone({ onFileSelect, isLoading = false }: DropzoneProps) {
               {isDragActive ? "RELEASE TO SCAN" : "INSERT DOCUMENT"}
             </motion.h3>
             
-            <p className="text-ink-muted text-sm mb-0.5">
+            <p className="text-ink-muted text-sm mb-1">
               Drop an invoice, screenshot, or table image
             </p>
             
@@ -286,9 +287,34 @@ export function Dropzone({ onFileSelect, isLoading = false }: DropzoneProps) {
               SCAN DOCUMENT
             </Button>
             
-            <p className="text-[11px] text-ink-muted mt-2 font-mono">
+            <p className="text-xs text-ink-muted mt-2 font-mono">
               📱 <span className="font-semibold">Mobile:</span> Tap camera to scan
             </p>
+            
+            {/* Sample Data Button */}
+            {onLoadSample && (
+              <p className="text-xs text-ink-muted mt-1.5 font-mono">
+                No image?{" "}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onLoadSample();
+                  }}
+                  disabled={isLoading}
+                  className="text-accent hover:text-accent-hover font-semibold underline underline-offset-2 disabled:opacity-50"
+                >
+                  Try a sample invoice
+                </button>
+              </p>
+            )}
+            
+            {/* Privacy Badge */}
+            <div className="flex items-center justify-center gap-1.5 mt-2.5 text-[10px] text-ink-muted/70 font-mono">
+              <Lock className="w-3 h-3" />
+              <span>Privacy First: Images processed in-memory, never stored</span>
+            </div>
           </div>
 
           <input
@@ -312,7 +338,7 @@ export function Dropzone({ onFileSelect, isLoading = false }: DropzoneProps) {
         </label>
 
         {/* Footer with supported formats */}
-        <div className="flex items-center justify-between px-5 py-2.5 border-t border-shadow/30">
+        <div className="flex items-center justify-between px-5 py-2 border-t border-shadow/30">
           <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-ink-muted">
             SUPPORTED FORMATS
           </span>
@@ -325,7 +351,7 @@ export function Dropzone({ onFileSelect, isLoading = false }: DropzoneProps) {
             {["PNG", "JPG", "WEBP", "HEIC"].map((format) => (
               <span 
                 key={format}
-                className="px-2 py-1 text-[10px] font-mono font-bold rounded bg-muted text-ink-muted shadow-[inset_1px_1px_2px_rgba(0,0,0,0.1)]"
+                className="px-2 py-0.5 text-[10px] font-mono font-bold rounded bg-muted text-ink-muted shadow-[inset_1px_1px_2px_rgba(0,0,0,0.1)]"
               >
                 {format}
               </span>

@@ -17,13 +17,18 @@ Built for a 48-hour hackathon, TableSnap solves "The Data Trap" - the painful pr
 ## ✨ Features
 
 - **🎯 AI-Powered Extraction** - Powered by Google Gemini 2.5 Flash for accurate table detection
-- **� Mobile Camera Scan** - "Scan Document" triggers native camera on iOS/Android
-- **�📋 Split View Interface** - Original image on the left, extracted data on the right
+- **📱 Mobile Camera Scan** - "Scan Document" triggers native camera on iOS/Android
+- **📋 Split View Interface** - Original image on the left, extracted data on the right
 - **✏️ Edit Before Export** - Fix any AI errors visually before downloading
 - **🔍 Zoom & Pan** - Examine your original image with full zoom/pan controls
 - **📥 One-Click CSV Export** - Download your verified data instantly
+- **✅ Export Success Toast** - Visual confirmation with filename when CSV downloads
 - **✨ Editable Headers** - Rename column headers with a click
-- **� Industrial Design** - Unique skeuomorphic UI with LED indicators, vent slots, and scan lines
+- **🏭 Industrial Design** - Unique skeuomorphic UI with LED indicators, vent slots, and scan lines
+- **💡 Smart Error Messages** - Context-aware tips when extraction fails
+- **🔒 Privacy Badge** - "Images processed in-memory, never stored" trust indicator
+- **🎬 Try Sample Invoice** - One-click demo for judges without needing an image
+- **💲 Format Currency Toggle** - Auto-format numeric columns as $X,XXX.XX
 
 ### 🚀 Power User Features
 
@@ -33,7 +38,9 @@ Built for a 48-hour hackathon, TableSnap solves "The Data Trap" - the painful pr
 - **📋 Copy to Clipboard** - One-click copy as TSV for direct paste into Excel/Google Sheets
 - **🔢 Smart Column Alignment** - Numeric columns (Price, Qty, Total, etc.) auto-align right
 - **🎉 Success Confetti** - Delightful celebration animation on export
+- **✅ Export Toast Notification** - Shows downloaded filename with auto-dismiss
 - **⚠️ Empty State Handling** - Friendly UI when no table is detected
+- **💡 Context-Aware Errors** - Helpful tips for improving image quality when extraction fails
 
 ## 🚀 Quick Start
 

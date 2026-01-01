@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ImageViewer } from "@/components/image-viewer";
 import { EditableTable } from "@/components/editable-table";
 import { Button } from "@/components/ui/button";
-import { Download, ArrowLeft, FileSpreadsheet, Image as ImageIcon, Copy, Check, AlertCircle, Zap } from "lucide-react";
+import { Download, ArrowLeft, FileSpreadsheet, Image as ImageIcon, Copy, Check, AlertCircle, Zap, DollarSign } from "lucide-react";
 import Papa from "papaparse";
 import confetti from "canvas-confetti";
 
@@ -91,6 +91,7 @@ export function Workspace({
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'image' | 'table'>('table');
   const [exportMessage, setExportMessage] = useState("");
+  const [formatCurrency, setFormatCurrency] = useState(false);
 
   // Copy to clipboard as TSV (Tab-Separated Values)
   const handleCopyToClipboard = async () => {
@@ -361,6 +362,22 @@ export function Workspace({
               )}
             </div>
             <div className="flex items-center gap-3">
+              {/* Format Currency Toggle */}
+              {tableData.rows.length > 0 && (
+                <button
+                  onClick={() => setFormatCurrency(!formatCurrency)}
+                  className={cn(
+                    "hidden md:flex items-center gap-1.5 px-2 py-1 rounded text-[10px] font-mono font-bold uppercase tracking-wider transition-all",
+                    formatCurrency 
+                      ? "bg-accent text-white shadow-neu-pressed" 
+                      : "bg-muted text-ink-muted shadow-neu-button hover:shadow-neu-floating"
+                  )}
+                  title="Format numbers as currency"
+                >
+                  <DollarSign className="w-3 h-3" />
+                  <span>Currency</span>
+                </button>
+              )}
               <LEDIndicator active={tableData.rows.length > 0} color="green" />
               <div className="hidden md:flex">
                 <VentSlots count={3} />
@@ -372,7 +389,7 @@ export function Workspace({
           <div className="flex-1 overflow-auto min-h-0 p-4 max-w-full">
             <div className="md:w-full overflow-x-auto">
             {tableData.rows.length > 0 ? (
-              <EditableTable data={tableData} onDataChange={onDataChange} />
+              <EditableTable data={tableData} onDataChange={onDataChange} formatCurrency={formatCurrency} />
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-center px-6">
                 <div className="w-20 h-20 rounded-full bg-chassis shadow-neu-floating flex items-center justify-center mb-6">

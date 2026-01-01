@@ -52,6 +52,11 @@
   --animate-glow: glow 2s ease-in-out infinite;
 }
 
+/* Disable pull-to-refresh on mobile */
+html, body {
+  overscroll-behavior-y: none;
+}
+
 /* Neumorphic Shadow System */
 :root {
   /* Card (Base Lift) */

@@ -2,10 +2,20 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "TableSnap - Convert Images to Spreadsheets Instantly",
+  title: "TableSnap | Unlock Static Data in Seconds",
   description:
-    "Transform images of tables, invoices, and financial documents into editable spreadsheets with AI-powered extraction. Verify before you export.",
-  keywords: ["OCR", "table extraction", "invoice scanner", "AI", "spreadsheet"],
+    "Turn images of invoices and tables into Excel-ready data instantly. Powered by Gemini AI. Verify before you export.",
+  keywords: ["OCR", "table extraction", "invoice scanner", "AI", "spreadsheet", "Gemini", "CSV export"],
+  openGraph: {
+    title: "TableSnap | Unlock Static Data in Seconds",
+    description: "Turn images of invoices and tables into Excel-ready data instantly. Powered by Gemini AI.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TableSnap | Unlock Static Data in Seconds",
+    description: "Turn images of invoices and tables into Excel-ready data instantly. Powered by Gemini AI.",
+  },
   icons: {
     icon: "/favicon.svg",
   },
@@ -26,7 +36,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-sans antialiased h-full overflow-hidden bg-chassis text-ink">{children}</body>
+      <body className="font-sans antialiased h-full overflow-hidden bg-chassis text-ink overscroll-none">{children}</body>
     </html>
   );
 }

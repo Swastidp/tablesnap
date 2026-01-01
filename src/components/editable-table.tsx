@@ -28,6 +28,7 @@ interface TableData {
 interface EditableTableProps {
   data: TableData;
   onDataChange: (data: TableData) => void;
+  formatCurrency?: boolean;
 }
 
 // Editable cell component
@@ -52,6 +53,18 @@ function EditableCell({
   
   // Check if column is numeric for right alignment
   const isNumeric = (column.columnDef.meta as { isNumeric?: boolean })?.isNumeric ?? false;
+  // @ts-expect-error - table.options.meta is custom
+  const formatCurrency = table.options.meta?.formatCurrency ?? false;
+
+  // Format value as currency if needed
+  const formatAsCurrency = (val: string): string => {
+    if (!formatCurrency || !isNumeric || !val) return val;
+    // Remove any existing currency formatting and parse
+    const cleanedVal = val.replace(/[\$,\s]/g, '').replace(/\[\?\]/g, '');
+    const num = parseFloat(cleanedVal);
+    if (isNaN(num)) return val;
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num);
+  };
 
   const onBlur = () => {
     setIsFocused(false);
@@ -116,7 +129,7 @@ function EditableCell({
     <div className={cn("relative editable-cell rounded", isFocused && "z-10", isNumeric && "text-right")}>
       <input
         id={`cell-${rowIndex}-${colIndex}`}
-        value={value || ""}
+        value={isFocused ? (value || "") : (formatAsCurrency(value) || "")}
         onChange={(e) => setValue(e.target.value)}
         onFocus={() => setIsFocused(true)}
         onBlur={onBlur}
@@ -126,7 +139,7 @@ function EditableCell({
           "shadow-[inset_2px_2px_4px_#babecc,inset_-2px_-2px_4px_#ffffff]",
           "hover:shadow-[inset_3px_3px_6px_#babecc,inset_-3px_-3px_6px_#ffffff]",
           "focus:outline-none focus:shadow-[inset_3px_3px_6px_#babecc,inset_-3px_-3px_6px_#ffffff,0_0_0_2px_#ff4757]",
-          hasUncertainty && "bg-warning-light shadow-[inset_2px_2px_4px_rgba(245,158,11,0.3),inset_-2px_-2px_4px_#ffffff] text-warning",
+          hasUncertainty && "bg-warning-light shadow-[inset_2px_2px_4px_rgba(245,158,11,0.3),inset_-2px_-2px_4px_#ffffff] text-warning pr-8",
           isNumeric && "text-right"
         )}
       />
@@ -202,7 +215,7 @@ function EditableHeader({
   );
 }
 
-export function EditableTable({ data, onDataChange }: EditableTableProps) {
+export function EditableTable({ data, onDataChange, formatCurrency = false }: EditableTableProps) {
   const [tableData, setTableData] = useState<Record<string, string>[]>(data.rows);
   const [headers, setHeaders] = useState<string[]>(data.headers);
 
@@ -312,6 +325,7 @@ export function EditableTable({ data, onDataChange }: EditableTableProps) {
       getColumnIndex: (columnId: string) => headers.indexOf(columnId),
       totalRows: tableData.length,
       totalCols: headers.length,
+      formatCurrency,
     },
   });
 

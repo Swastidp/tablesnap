@@ -109,6 +109,81 @@ export default function Home() {
     setTableData(newData);
   }, []);
 
+  // Sample data for "Lazy Judge" demo
+  const handleLoadSample = useCallback(async () => {
+    // Sample invoice data - pre-baked for instant demo
+    const sampleData: TableData = {
+      headers: ["Item", "Description", "Qty", "Unit Price", "Total"],
+      rows: [
+        { "Item": "WEB-001", "Description": "Website Development", "Qty": "1", "Unit Price": "$2,500.00", "Total": "$2,500.00" },
+        { "Item": "DES-002", "Description": "Logo Design Package", "Qty": "1", "Unit Price": "$450.00", "Total": "$450.00" },
+        { "Item": "HST-003", "Description": "Annual Hosting Plan", "Qty": "12", "Unit Price": "$29.99", "Total": "$359.88" },
+        { "Item": "SEO-004", "Description": "SEO Optimization", "Qty": "3", "Unit Price": "$150.00", "Total": "$450.00" },
+        { "Item": "SUP-005", "Description": "Premium Support [?]", "Qty": "6", "Unit Price": "$75.00", "Total": "$450.00" },
+      ],
+    };
+
+    // Create a placeholder image (a simple invoice-like pattern)
+    const canvas = document.createElement('canvas');
+    canvas.width = 800;
+    canvas.height = 600;
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      // Background
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, 800, 600);
+      
+      // Header
+      ctx.fillStyle = '#2d3436';
+      ctx.font = 'bold 28px Inter, sans-serif';
+      ctx.fillText('INVOICE', 50, 60);
+      ctx.font = '14px Inter, sans-serif';
+      ctx.fillStyle = '#718096';
+      ctx.fillText('Sample Invoice #INV-2024-001', 50, 85);
+      ctx.fillText('Date: January 1, 2026', 50, 105);
+      
+      // Table header
+      ctx.fillStyle = '#e0e5ec';
+      ctx.fillRect(50, 140, 700, 35);
+      ctx.fillStyle = '#2d3436';
+      ctx.font = 'bold 12px Inter, sans-serif';
+      const headers = ['Item', 'Description', 'Qty', 'Unit Price', 'Total'];
+      const colWidths = [80, 250, 60, 120, 120];
+      let x = 60;
+      headers.forEach((h, i) => {
+        ctx.fillText(h, x, 162);
+        x += colWidths[i];
+      });
+      
+      // Table rows
+      ctx.font = '12px Inter, sans-serif';
+      sampleData.rows.forEach((row, rowIndex) => {
+        const y = 200 + rowIndex * 35;
+        if (rowIndex % 2 === 0) {
+          ctx.fillStyle = '#f8f9fa';
+          ctx.fillRect(50, y - 18, 700, 35);
+        }
+        ctx.fillStyle = '#2d3436';
+        let x = 60;
+        headers.forEach((h, i) => {
+          ctx.fillText(row[h] || '', x, y);
+          x += colWidths[i];
+        });
+      });
+      
+      // Total
+      ctx.font = 'bold 16px Inter, sans-serif';
+      ctx.fillText('Subtotal: $4,209.88', 550, 400);
+      ctx.fillText('Tax (8%): $336.79', 550, 425);
+      ctx.fillStyle = '#ff4757';
+      ctx.fillText('TOTAL: $4,546.67', 550, 460);
+    }
+    
+    setImageDataUrl(canvas.toDataURL('image/png'));
+    setTableData(sampleData);
+    setAppState('workspace');
+  }, []);
+
   // Render workspace view
   if (appState === "workspace" && tableData) {
     return (
@@ -125,9 +200,9 @@ export default function Home() {
   return (
     <main className="h-screen flex flex-col overflow-hidden bg-chassis">
       {/* Industrial Header */}
-      <header className="flex-shrink-0 px-6 py-3">
+      <header className="flex-shrink-0 px-6 py-2">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-chassis rounded-xl shadow-neu-card px-5 py-3 border-2 border-shadow/30">
+          <div className="bg-chassis rounded-xl shadow-neu-card px-5 py-2 border-2 border-shadow/30">
             <div className="flex items-center justify-between">
               {/* Logo and brand */}
               <motion.div
@@ -175,7 +250,7 @@ export default function Home() {
 
       {/* Main content */}
       <div className="flex-1 min-h-0 overflow-y-auto md:overflow-hidden">
-        <div className="min-h-full md:h-full flex items-center justify-center px-4 md:px-6 py-6 md:py-4">
+        <div className="min-h-full md:h-full flex items-center justify-center px-4 md:px-6 py-4 md:py-3">
           <AnimatePresence mode="wait">
             {appState === "idle" && (
               <motion.div
@@ -187,12 +262,12 @@ export default function Home() {
                 className="w-full max-w-2xl"
               >
                 {/* Hero text */}
-                <div className="text-center mb-4 px-2">
+                <div className="text-center mb-3 px-2">
                   <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1, ...mechanicalSpring }}
-                    className="text-xl md:text-3xl font-extrabold text-ink text-embossed mb-2 tracking-tight leading-tight"
+                    className="text-2xl md:text-3xl font-extrabold text-ink text-embossed mb-2 tracking-tight leading-tight"
                   >
                     Images to Spreadsheets,{" "}
                     <span className="text-accent">Instantly.</span>
@@ -208,14 +283,14 @@ export default function Home() {
                   </motion.p>
                 </div>
 
-                <Dropzone onFileSelect={handleFileSelect} />
+                <Dropzone onFileSelect={handleFileSelect} onLoadSample={handleLoadSample} />
 
                 {/* Feature cards - Industrial style */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, ...mechanicalSpring }}
-                  className="mt-6 grid grid-cols-3 gap-2 md:gap-3 px-1"
+                  className="mt-4 grid grid-cols-3 gap-3 px-1"
                 >
                   {[
                     { icon: Target, title: "AI ACCURACY", desc: "Gemini 2.5 Flash" },
@@ -224,15 +299,15 @@ export default function Home() {
                   ].map((feature, index) => (
                     <div 
                       key={index}
-                      className="bg-chassis rounded-lg shadow-neu-card p-2 md:p-3 text-center group hover:-translate-y-0.5 hover:shadow-neu-floating transition-all duration-300 border-2 border-shadow/20"
+                      className="bg-chassis rounded-lg shadow-neu-card p-3 text-center group hover:-translate-y-0.5 hover:shadow-neu-floating transition-all duration-300 border-2 border-shadow/20"
                     >
-                      <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-chassis shadow-neu-floating flex items-center justify-center mx-auto mb-1.5 md:mb-2 group-hover:scale-110 transition-transform duration-300">
-                        <feature.icon className="w-3.5 h-3.5 md:w-4 md:h-4 text-accent" />
+                      <div className="w-9 h-9 rounded-full bg-chassis shadow-neu-floating flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-300">
+                        <feature.icon className="w-4 h-4 text-accent" />
                       </div>
-                      <h3 className="font-bold text-ink text-[9px] md:text-[10px] mb-0.5 uppercase tracking-wider text-embossed">
+                      <h3 className="font-bold text-ink text-[10px] md:text-xs mb-0.5 uppercase tracking-wider text-embossed">
                         {feature.title}
                       </h3>
-                      <p className="text-[8px] md:text-[10px] font-mono text-ink-muted uppercase tracking-wide">
+                      <p className="text-[9px] md:text-[10px] font-mono text-ink-muted uppercase tracking-wide">
                         {feature.desc}
                       </p>
                     </div>
@@ -329,9 +404,9 @@ export default function Home() {
       </div>
 
       {/* Industrial Footer */}
-      <footer className="flex-shrink-0 px-6 py-3">
+      <footer className="flex-shrink-0 px-6 py-2">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-chassis rounded-lg shadow-neu-card px-5 py-3 border-2 border-shadow/30">
+          <div className="bg-chassis rounded-lg shadow-neu-card px-5 py-2 border-2 border-shadow/30">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <LEDIndicator active={true} color="green" />
